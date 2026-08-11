@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -21,6 +22,13 @@ import java.util.stream.Collectors;
 public class PostController {
 
     private final PostService postService;
+
+    @GetMapping("/posts")
+    @ResponseBody
+    public List<Post> list() {
+        List<Post> postList = postService.findAll();
+        return postList;
+    }
 
     @GetMapping("/posts/write")
     @ResponseBody

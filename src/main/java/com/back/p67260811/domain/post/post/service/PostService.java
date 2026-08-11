@@ -18,7 +18,9 @@ public class PostService {
         return postRepository.save(post);
     }
 
-
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
 
     public long count() {
         return postRepository.count();
