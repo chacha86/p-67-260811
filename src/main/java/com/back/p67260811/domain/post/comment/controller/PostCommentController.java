@@ -11,9 +11,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -30,18 +29,13 @@ public class PostCommentController {
         private String content;
     }
 
-    @PostMapping("/posts/{postId}/comments/write")
+    @GetMapping("/posts/{postId}/comments/write")
     @Transactional
     @ResponseBody
     public String write(
             @PathVariable int postId,
-            @Valid CommentWriteForm form,
-            BindingResult bindingResult
+            @Valid CommentWriteForm form
     ) {
-
-        if(bindingResult.hasErrors()) {
-            return "댓글 작성 실패";
-        }
 
         Post post = postService.findById(postId).get();
         PostComment postComment = post.addComment(form.content);
