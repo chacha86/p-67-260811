@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -30,7 +30,7 @@ public class PostCommentController {
         private String content;
     }
 
-    @GetMapping("/posts/{postId}/comments/write")
+    @PostMapping("/posts/{postId}/comments/write")
     @Transactional
     @ResponseBody
     public String write(
