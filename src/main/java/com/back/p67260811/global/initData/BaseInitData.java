@@ -18,7 +18,6 @@ public class BaseInitData {
     @Lazy
     private BaseInitData self;
     private final PostService postService;
-
     @Bean
     ApplicationRunner initDataRunner() {
         return args -> {
