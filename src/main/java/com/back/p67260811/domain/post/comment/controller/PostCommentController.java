@@ -46,4 +46,18 @@ public class PostCommentController {
         return "%d번 댓글이 성공적으로 등록되었습니다.".formatted(postComment.getId()); // 아직 DB에 저장되지 않은 시점
 
     }
+
+    @GetMapping("/posts/{postId}/comments/{commentId}/delete")
+    @Transactional
+    @ResponseBody
+    public String delete(
+            @PathVariable int postId,
+            @PathVariable int commentId
+    ) {
+
+        Post post = postService.findById(postId).get();
+        postService.deleteComment(post, commentId);
+
+        return "%d번 댓글이 삭제되었습니다.".formatted(commentId);
+    }
 }

@@ -23,7 +23,7 @@ public class Post extends BaseEntity {
         this.content = content;
     }
 
-    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     List<PostComment> comments = new ArrayList<>();
 
     public PostComment addComment(String content) {
@@ -31,5 +31,9 @@ public class Post extends BaseEntity {
         this.comments.add(postComment);
 
         return postComment;
+    }
+
+    public void removeComment(int id) {
+        comments.removeIf(comment -> comment.getId() == id);
     }
 }
