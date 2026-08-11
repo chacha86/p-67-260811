@@ -46,7 +46,10 @@ public class PostCommentController {
         Post post = postService.findById(postId).get();
         PostComment postComment = post.addComment(form.content);
 
-        return "%d번 댓글이 성공적으로 등록되었습니다.".formatted(postComment.getId());
+        // DB 저장
+        postService.flush();
+
+        return "%d번 댓글이 성공적으로 등록되었습니다.".formatted(postComment.getId()); // 아직 DB에 저장되지 않은 시점
 
     }
 }
