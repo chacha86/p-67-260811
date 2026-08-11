@@ -24,7 +24,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/posts")
-    @ResponseBody
+    @ResponseBody // 브라우저에게 보내려면 직렬화가 필요
     public List<Post> list() {
         List<Post> postList = postService.findAll();
         return postList;
