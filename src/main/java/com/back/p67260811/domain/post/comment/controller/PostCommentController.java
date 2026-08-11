@@ -6,10 +6,7 @@ import com.back.p67260811.domain.post.post.service.PostService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +19,11 @@ public class PostCommentController {
 
     private final PostService postService;
 
-    @AllArgsConstructor
-    @Getter
-    public static class CommentWriteForm {
+    record CommentWriteForm(
         @NotBlank(message = "댓글 내용을 입력해주세요.")
         @Size(min = 2, max = 100, message = "댓글 내용은 2글자 이상 100글자 이하로 입력해주세요.")
-        private String content;
-    }
+        String content
+    ){}
 
     @GetMapping("/posts/{postId}/comments/write")
     @Transactional
@@ -39,7 +34,7 @@ public class PostCommentController {
     ) {
 
         Post post = postService.findById(postId).get();
-        PostComment postComment = postService.writeComment(post, form.getContent());
+        PostComment postComment = postService.writeComment(post, form.content);
         // DB 저장
         postService.flush();
 
@@ -61,15 +56,11 @@ public class PostCommentController {
         return "%d번 댓글이 삭제되었습니다.".formatted(commentId);
     }
 
-
-    @AllArgsConstructor
-    @Getter
-    @Setter
-    public static class CommentModifyForm {
-        @NotBlank(message = "댓글 내용을 입력해주세요.")
-        @Size(min = 2, max = 100, message = "댓글 내용은 2글자 이상 100글자 이하로 입력해주세요.")
-        private String content;
-    }
+    record CommentModifyForm(
+            @NotBlank(message = "댓글 내용을 입력해주세요.")
+            @Size(min = 2, max = 100, message = "댓글 내용은 2글자 이상 100글자 이하로 입력해주세요.")
+            String content
+    ){}
 
     @GetMapping("/posts/{postId}/comments/{commentId}/modify")
     @Transactional
@@ -80,8 +71,8 @@ public class PostCommentController {
     ) {
 
         Post post = postService.findById(postId).get();
-        postService.modifyComment(post, commentId, form.getContent());
+        postService.modifyComment(post, commentId, form.content);
 
-        return "redirect:/posts/" + postId;
+        return "%d번 댓글이 수정되었습니다.".formatted(commentId);
     }
 }
