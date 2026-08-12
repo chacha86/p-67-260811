@@ -73,7 +73,7 @@ public class PostCommentController {
 
     @GetMapping("/{commentId}/delete")
     @Transactional
-    public RsData delete(
+    public RsData<PostCommentDto> delete(
             @PathVariable int postId,
             @PathVariable int commentId
     ) {
@@ -82,11 +82,13 @@ public class PostCommentController {
         PostComment postComment = postService.findCommentById(post, commentId);
         postService.deleteComment(post, commentId);
 
-        return new RsData(
+        RsData<PostCommentDto> rsData = new RsData<>(
                 "200-1",
                 "%d번 댓글이 삭제되었습니다.".formatted(commentId),
                 new PostCommentDto(postComment)
         );
+
+        return rsData;
 
     }
 
