@@ -4,12 +4,16 @@ import com.back.p67260811.domain.post.comment.dto.PostCommentDto;
 import com.back.p67260811.domain.post.comment.entity.PostComment;
 import com.back.p67260811.domain.post.post.entity.Post;
 import com.back.p67260811.domain.post.post.service.PostService;
+import com.back.p67260811.global.dto.RsData;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -69,7 +73,7 @@ public class PostCommentController {
 
     @GetMapping("/{commentId}/delete")
     @Transactional
-    public String delete(
+    public RsData delete(
             @PathVariable int postId,
             @PathVariable int commentId
     ) {
@@ -77,7 +81,11 @@ public class PostCommentController {
         Post post = postService.findById(postId).get();
         postService.deleteComment(post, commentId);
 
-        return "%d번 댓글이 삭제되었습니다.".formatted(commentId);
+        return new RsData(
+                "200-1",
+                "%d번 댓글이 삭제되었습니다.".formatted(commentId)
+        );
+
     }
 
     record CommentModifyForm(
