@@ -5,10 +5,7 @@ import com.back.p67260811.domain.post.post.entity.Post;
 import com.back.p67260811.domain.post.post.service.PostService;
 import com.back.p67260811.global.dto.RsData;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,7 +36,7 @@ public class PostController {
         return new PostDto(post);
     }
 
-    @GetMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public RsData<Void> delete(
             @PathVariable int id
     ) {
