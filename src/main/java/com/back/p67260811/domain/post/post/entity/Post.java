@@ -23,6 +23,7 @@ public class Post extends BaseEntity {
         this.content = content;
     }
 
+
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     List<PostComment> comments = new ArrayList<>();
 
