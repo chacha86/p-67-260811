@@ -65,7 +65,7 @@ public class PostController {
                 )
         );
 
-        return ResponseEntity.status(201).body(rsData);
+        return ResponseEntity.status(rsData.getStatusCode()).body(rsData);
     }
 
     @DeleteMapping("/{id}")
