@@ -54,4 +54,8 @@ public class PostService {
     public void delete(int id) {
         postRepository.deleteById(id);
     }
+
+    public void modify(Post post, String title, String content) {
+        post.update(title, content);
+    }
 }

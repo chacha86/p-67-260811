@@ -58,4 +58,10 @@ public class Post extends BaseEntity {
         return postComment;
     }
 
+    public void update(String title, String content) {
+
+        // 비즈니스 규칙
+        this.title = title;
+        this.content = content;
+    }
 }
