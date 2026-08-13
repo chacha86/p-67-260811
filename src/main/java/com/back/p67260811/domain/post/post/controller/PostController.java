@@ -44,15 +44,24 @@ public class PostController {
     ) {
     }
 
+    record PostWriteResBody(
+            PostDto postDto,
+            long totalPostCount
+    )
+    {}
+
     @PostMapping
-    public RsData<PostDto> write(
+    public RsData<PostWriteResBody> write(
             @Valid @RequestBody PostWriteReqBody reqBody
     ) {
         Post post = postService.write(reqBody.title, reqBody.content);
         return new RsData<>(
                 "201-1",
                 "%d번 글이 성공적으로 등록되었습니다".formatted(post.getId()),
-                new PostDto(post)
+                new PostWriteResBody(
+                        new PostDto(post),
+                        postService.count()
+                )
         );
     }
 
@@ -62,7 +71,7 @@ public class PostController {
     ) {
         postService.delete(id);
 
-        return new RsData<>(
+       return new RsData<>(
                 "204-1",
                 "게시물이 삭제되었습니다."
         );
