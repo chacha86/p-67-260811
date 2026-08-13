@@ -9,7 +9,7 @@ public record PostDto(
         LocalDateTime createDate,
         LocalDateTime modifyDate,
         String title,
-        String body
+        String content
 ) {
     public PostDto(Post post) {
         this(
