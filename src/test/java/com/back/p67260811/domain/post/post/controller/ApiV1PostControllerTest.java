@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -40,8 +42,25 @@ public class ApiV1PostControllerTest {
                 )
                 .andDo(print());
 
+
+        List<Post> posts = postRepository.findAll();
+
         resultActions
+                .andExpect(handler().handlerType(ApiV1PostController.class))
+                .andExpect(handler().methodName("list"))
                 .andExpect(status().isOk());
+
+
+        for(int i = 0; i < posts.size(); i++) {
+            Post post = posts.get(i);
+
+            resultActions
+                    .andExpect(jsonPath("$[%d].id".formatted(i)).value(post.getId()))
+                    .andExpect(jsonPath("$[%d].createDate".formatted(i)).exists())
+                    .andExpect(jsonPath("$[%d].modifyDate".formatted(i)).exists())
+                    .andExpect(jsonPath("$[%d].title".formatted(i)).value(post.getTitle()))
+                    .andExpect(jsonPath("$[%d].content".formatted(i)).value(post.getContent()));
+        }
     }
 
     @Test
@@ -125,6 +144,5 @@ public class ApiV1PostControllerTest {
                 .andExpect(jsonPath("$.content").value("내용1"));
 
     }
-
 
 }
