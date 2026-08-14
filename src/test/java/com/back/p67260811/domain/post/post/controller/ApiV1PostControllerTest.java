@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -95,9 +94,37 @@ public class ApiV1PostControllerTest {
                 .andExpect(status().isOk());
 
         // 선택적 검증
-        Post post = postRepository.findById(targetId).get();
-//
+        Post post = postRepository.findById(targetId).get(); // 순수하게 DB 조회
+
         assertThat(post.getTitle()).isEqualTo(title);
         assertThat(post.getContent()).isEqualTo(content);
     }
+
+
+    @Test
+    @DisplayName("글 단건 조회")
+    void t4() throws Exception {
+        int targetId = 1;
+
+        ResultActions resultActions = mvc
+                .perform(
+                        get("/api/v1/posts/%d".formatted(targetId))
+                )
+                .andDo(print());
+
+
+        // 필수 검증
+        resultActions
+                .andExpect(handler().handlerType(ApiV1PostController.class))
+                .andExpect(handler().methodName("detail"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.createDate").exists())
+                .andExpect(jsonPath("$.modifyDate").exists())
+                .andExpect(jsonPath("$.title").value("제목1"))
+                .andExpect(jsonPath("$.content").value("내용1"));
+
+    }
+
+
 }
