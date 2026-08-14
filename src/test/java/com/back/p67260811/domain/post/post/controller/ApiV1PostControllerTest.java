@@ -13,8 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsInRelativeOrder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,8 +41,6 @@ public class ApiV1PostControllerTest {
                 )
                 .andDo(print());
 
-
-        List<Post> posts = postRepository.findAll();
 
         resultActions
                 .andExpect(handler().handlerType(ApiV1PostController.class))

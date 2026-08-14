@@ -61,7 +61,7 @@ public class ApiV1PostController {
         return new RsData<>(
                 "201-1",
                 "%d번 글이 성공적으로 등록되었습니다".formatted(post.getId()),
-                        new PostDto(post)
+                new PostDto(post)
         );
     }
 
